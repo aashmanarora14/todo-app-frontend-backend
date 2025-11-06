@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: backend
+namespace: demo
+spec:
+replicas: 2
+selector:
+matchLabels:
+app: backend
+template:
+metadata:
+labels:
+app: backend
+spec:
+containers:
+- name: backend
+image: <YOUR_BACKEND_IMAGE> # replace with your image
+ports:
+- containerPort: 4000
+env:
+- name: PORT
+value: "4000"
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+name: backend
+namespace: demo
+spec:
+selector:
+app: backend
+ports:
+- protocol: TCP
+port: 4000
+targetPort: 4000
+type: ClusterIP
